@@ -11,18 +11,26 @@ import java.util.List;
 
 public class Cuenta {
 
-  private double saldo = 0;
-  private List<Movimiento> movimientos = new ArrayList<>();
+  private double saldo;
+  private List<Movimiento> movimientos;
 
-  public Cuenta() {//Esto es raro
+  public Cuenta() {
     saldo = 0;
+    this.movimientos = new ArrayList<>();
   }
 
-  public Cuenta(double montoInicial) {//Smells faltan funciones
+  public Cuenta(double montoInicial) {
     saldo = montoInicial;
+    this.movimientos = new ArrayList<>();
   }
+  
+  
+  public Cuenta(double saldo, List<Movimiento> movimientos) {
+	this.saldo = saldo;
+	this.movimientos = movimientos;
+}
 
-  public void setMovimientos(List<Movimiento> movimientos) {//No sets
+public void setMovimientos(List<Movimiento> movimientos) {//No sets
     this.movimientos = movimientos;
   }
 
