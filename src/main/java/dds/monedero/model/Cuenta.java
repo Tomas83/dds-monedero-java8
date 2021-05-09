@@ -61,7 +61,7 @@ public class Cuenta {
 
   public double getMontoExtraidoA(LocalDate fecha) {
     return getMovimientos().stream()
-        .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha))//Deberia usar isExtraction() no isDeposit() y pero ademas no deberia hacer esto cuando movimiento tiene fueExtraido(LocalDate fecha)
+        .filter(movimiento -> movimiento.fueExtraido(fecha))
         .mapToDouble(Movimiento::getMonto)
         .sum();
   }
