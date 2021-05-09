@@ -42,17 +42,17 @@ public class Movimiento {
   public boolean isExtraccion() {
     return !esDeposito;
   }
-//Esto deberia hacerlo la cuenta
+
   public void agregateA(Cuenta cuenta) {
-    cuenta.setSaldo(calcularValor(cuenta));
+    cuenta.addSaldo(calcularValor());
     cuenta.agregarMovimiento(fecha, monto, esDeposito);
   }
 
-  public double calcularValor(Cuenta cuenta) {//Esto en general es raro
+  public double calcularValor() {
     if (esDeposito) {
-      return cuenta.getSaldo() + getMonto();
+      return getMonto();
     } else {
-      return cuenta.getSaldo() - getMonto();
+      return -getMonto();
     }
   }
 }

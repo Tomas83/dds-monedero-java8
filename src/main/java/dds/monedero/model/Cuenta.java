@@ -45,7 +45,7 @@ public void setMovimientos(List<Movimiento> movimientos) {//No sets
 
     new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);// esto es en general malo
   }
-
+  
   public void sacar(double cuanto) {
 	  
     if (cuanto <= 0) {
@@ -87,6 +87,10 @@ public void setMovimientos(List<Movimiento> movimientos) {//No sets
   //Dont like set, set bad
   public void setSaldo(double saldo) {
     this.saldo = saldo;
+  }
+  public void addSaldo(double saldo)
+  {
+	  this.saldo += saldo;
   }
 
 }
