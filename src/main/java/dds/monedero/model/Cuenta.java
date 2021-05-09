@@ -39,20 +39,23 @@ public void setMovimientos(List<Movimiento> movimientos) {//No sets
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
     }
 
-    if (getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count() >= 3) {
-      throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");//Diarios? no veo el chequeo
+    if (getMovimientos().stream().filter(movimiento -> movimiento.fueDepositado(LocalDate.now())).count() >= 3) {
+      throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
     }
 
     new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);// esto es en general malo
   }
 
   public void sacar(double cuanto) {
+	  
     if (cuanto <= 0) {
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
     }
+    
     if (getSaldo() - cuanto < 0) {
       throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
     }
+    
     double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
     double limite = 1000 - montoExtraidoHoy;
     if (cuanto > limite) {
