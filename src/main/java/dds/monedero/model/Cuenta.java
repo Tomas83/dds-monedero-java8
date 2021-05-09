@@ -14,15 +14,15 @@ public class Cuenta {
   private double saldo = 0;
   private List<Movimiento> movimientos = new ArrayList<>();
 
-  public Cuenta() {
+  public Cuenta() {//Esto es raro
     saldo = 0;
   }
 
-  public Cuenta(double montoInicial) {
+  public Cuenta(double montoInicial) {//Smells faltan funciones
     saldo = montoInicial;
   }
 
-  public void setMovimientos(List<Movimiento> movimientos) {
+  public void setMovimientos(List<Movimiento> movimientos) {//No sets
     this.movimientos = movimientos;
   }
 
@@ -32,10 +32,10 @@ public class Cuenta {
     }
 
     if (getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count() >= 3) {
-      throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
+      throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");//Diarios? no veo el chequeo
     }
 
-    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
+    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);// esto es en general malo
   }
 
   public void sacar(double cuanto) {
@@ -48,7 +48,7 @@ public class Cuenta {
     double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
     double limite = 1000 - montoExtraidoHoy;
     if (cuanto > limite) {
-      throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + 1000
+      throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + 1000  //Smells Really bad
           + " diarios, límite: " + limite);
     }
     new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
@@ -61,7 +61,7 @@ public class Cuenta {
 
   public double getMontoExtraidoA(LocalDate fecha) {
     return getMovimientos().stream()
-        .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha))
+        .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha))//Deberia usar isExtraction() no isDeposit() y pero ademas no deberia hacer esto cuando movimiento tiene fueExtraido(LocalDate fecha)
         .mapToDouble(Movimiento::getMonto)
         .sum();
   }
@@ -73,7 +73,7 @@ public class Cuenta {
   public double getSaldo() {
     return saldo;
   }
-
+  //Dont like set, set bad
   public void setSaldo(double saldo) {
     this.saldo = saldo;
   }
