@@ -30,10 +30,6 @@ public class Cuenta {
 	this.movimientos = movimientos;
 }
 
-public void setMovimientos(List<Movimiento> movimientos) {//No sets
-    this.movimientos = movimientos;
-  }
-
   public void poner(double cuanto) {
     if (cuanto <= 0) {
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
@@ -84,10 +80,7 @@ public void setMovimientos(List<Movimiento> movimientos) {//No sets
   public double getSaldo() {
     return saldo;
   }
-  //Dont like set, set bad
-  public void setSaldo(double saldo) {
-    this.saldo = saldo;
-  }
+
   public void addSaldo(double amount)
   {
 	  this.saldo += amount;
