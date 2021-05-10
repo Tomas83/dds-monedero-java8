@@ -42,8 +42,7 @@ public void setMovimientos(List<Movimiento> movimientos) {//No sets
     if (getMovimientos().stream().filter(movimiento -> movimiento.fueDepositado(LocalDate.now())).count() >= 3) {
       throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
     }
-
-    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);// esto es en general malo
+    agregarMovimiento(LocalDate.now(), cuanto, true);
   }
   
   public void sacar(double cuanto) {
@@ -59,14 +58,15 @@ public void setMovimientos(List<Movimiento> movimientos) {//No sets
     double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
     double limite = 1000 - montoExtraidoHoy;
     if (cuanto > limite) {
-      throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + 1000  //Smells Really bad
+      throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + 1000  //No me gustan los numeros fijos
           + " diarios, límite: " + limite);
     }
-    new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
+    agregarMovimiento(LocalDate.now(), cuanto, false);
   }
 
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
     Movimiento movimiento = new Movimiento(fecha, cuanto, esDeposito);
+    addSaldo(movimiento.calcularValor());
     movimientos.add(movimiento);
   }
 
@@ -88,9 +88,9 @@ public void setMovimientos(List<Movimiento> movimientos) {//No sets
   public void setSaldo(double saldo) {
     this.saldo = saldo;
   }
-  public void addSaldo(double saldo)
+  public void addSaldo(double amount)
   {
-	  this.saldo += saldo;
+	  this.saldo += amount;
   }
 
 }
